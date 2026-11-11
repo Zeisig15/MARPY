@@ -75,6 +75,40 @@
     <origin xyz="0.024 0 0.0705" rpy="0 0 0" />
   </joint>
 
+  <!-- ==================== lidar_link ==================== -->
+  <!-- 2D lidar on top of the body (size roughly like an LD19/LD06).
+       Simulation only for now; the real robot has no lidar yet. -->
+  <link name="lidar_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.045" />
+      <inertia
+        ixx="6.0e-06"  ixy="0"  ixz="0"
+        iyy="6.0e-06"  iyz="0"
+        izz="9.0e-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.02" length="0.02" />
+      </geometry>
+      <material name="dark_grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.02" length="0.02" />
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- base_link mesh tops out at z = 0.082, so the lidar sits just above it -->
+  <joint name="lidar_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="lidar_link" />
+    <origin xyz="0 0 0.093" rpy="0 0 0" />
+  </joint>
+
   <!-- ==================== left_wheel ==================== -->
   <link name="left_wheel">
     <inertial>

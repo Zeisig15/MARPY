@@ -93,6 +93,53 @@
   </gazebo>
 
   <!--
+    2D lidar: 360 samples (1 degree), 10 Hz, 0.05-12 m, similar to an LD19.
+    gz_frame_id keeps the scan in lidar_link, because Gazebo merges fixed
+    links into base_link when it converts the URDF.
+  -->
+  <gazebo reference="lidar_link">
+    <visual>
+      <material>
+        <ambient>0.1 0.1 0.1 1.0</ambient>
+        <diffuse>0.1 0.1 0.1 1.0</diffuse>
+      </material>
+    </visual>
+    <sensor name="lidar" type="gpu_lidar">
+      <always_on>true</always_on>
+      <update_rate>10</update_rate>
+      <visualize>true</visualize>
+      <topic>/scan</topic>
+      <gz_frame_id>lidar_link</gz_frame_id>
+      <lidar>
+        <scan>
+          <horizontal>
+            <samples>360</samples>
+            <resolution>1</resolution>
+            <min_angle>-3.14159</min_angle>
+            <max_angle>3.12414</max_angle>
+          </horizontal>
+          <vertical>
+            <samples>1</samples>
+            <resolution>1</resolution>
+            <min_angle>0</min_angle>
+            <max_angle>0</max_angle>
+          </vertical>
+        </scan>
+        <range>
+          <min>0.05</min>
+          <max>12.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </lidar>
+    </sensor>
+  </gazebo>
+
+  <!--
     DiffDrive plugin: subscribes to /cmd_vel and drives the wheel joints.
     Odometry is NOT computed here - marpy_localization handles it from
     /joint_states, keeping the sim pipeline identical to real hardware.
